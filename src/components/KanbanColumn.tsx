@@ -1,4 +1,4 @@
-import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { Draggable } from 'react-beautiful-dnd';
 // @mui
 import { Paper, Stack, Typography } from '@mui/material';
 // @types
@@ -35,26 +35,14 @@ export default function KanbanColumn({ column, index }: Props) {
               {title}
             </Typography>
 
-            <Droppable droppableId={id} type='task'>
-              {(provided) => (
-                <Stack
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  spacing={2}
-                  width={280}
-                >
-                  {taskIds.map((taskId, index) => (
-                    <KanbanTaskCard
-                      key={taskId}
-                      card={filter(board.tasks, ['id', taskId])[0]}
-                      index={index}
-                    />
-                  ))}
-
-                  {provided.placeholder}
-                </Stack>
-              )}
-            </Droppable>
+            <Stack spacing={2} width={280}>
+              {taskIds.map((taskId) => (
+                <KanbanTaskCard
+                  key={taskId}
+                  card={filter(board.tasks, ['id', taskId])[0]}
+                />
+              ))}
+            </Stack>
           </Stack>
         </Paper>
       )}
