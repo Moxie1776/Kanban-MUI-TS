@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import SkeletonKanbanColumn from './components/SkeletonKanbanColumn';
 // sections
 import { filter } from 'lodash';
+import { useState } from 'react';
 import KanbanColumn from './components/KanbanColumn';
 import Page from './components/Page';
 import initialData from './initial-data';
@@ -13,12 +14,29 @@ import initialData from './initial-data';
 
 export default function App() {
   const board = initialData;
+  const [columnOrder, setColumnOrder] = useState(board.columnOrder);
 
   const onDragEnd = (result: DropResult) => {
     // Reorder card
-    // const { destination, source, draggableId, type } = result;
+    const { destination, source, draggableId, type } = result;
 
-    console.log('onDragEnd', result);
+    if (!destination) return;
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    if (type === 'column') {
+      const newColumnOrder = Array.from(columnOrder);
+      newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, draggableId);
+
+      setColumnOrder(newColumnOrder);
+      return;
+    }
   };
 
   return (
@@ -42,10 +60,10 @@ export default function App() {
                 spacing={3}
                 sx={{ height: 'calc(100% - 32px)', overflowY: 'hidden' }}
               >
-                {!board.columnOrder.length ? (
+                {!columnOrder.length ? (
                   <SkeletonKanbanColumn />
                 ) : (
-                  board.columnOrder.map((columnId, index) => (
+                  columnOrder.map((columnId, index) => (
                     <KanbanColumn
                       index={index}
                       key={columnId}

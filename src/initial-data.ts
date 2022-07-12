@@ -27,16 +27,21 @@ const initialData: initialDataType = {
     {
       id: 'column-1',
       title: 'To do 1',
-      taskIds: ['task-1', 'task-2', 'task-3', 'task-4'],
+      taskIds: ['task-1', 'task-2'],
     },
     {
       id: 'column-2',
       title: 'To do 2',
       taskIds: ['task-5', 'task-6'],
     },
+    {
+      id: 'column-3',
+      title: 'To do 3',
+      taskIds: ['task-3', 'task-4'],
+    },
   ],
   // Facilitate reordering of the columns
-  columnOrder: ['column-1', 'column-2'],
+  columnOrder: ['column-1', 'column-2', 'column-3'],
 };
 
 export default initialData;
